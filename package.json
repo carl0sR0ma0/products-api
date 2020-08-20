@@ -1,0 +1,19 @@
+{
+  "name": "products-api",
+  "version": "1.0.0",
+  "description": "Products API para o treinamento do GPES",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carl0sR0ma0/products-api.git"
+  },
+  "author": "carl0sR0ma0",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carl0sR0ma0/products-api/issues"
+  },
+  "homepage": "https://github.com/carl0sR0ma0/products-api#readme"
+}
