@@ -68,6 +68,18 @@ class Product {
       }
     })
   }
+
+  deleteOneProduct(req, res) {
+    const productNameToBeDeleted = req.params.nome
+
+    productSchema.deleteOne({name: productNameToBeDeleted}, (err) => {
+      if (err) {
+        res.status(500).send({message: 'Houve um erro ao apagar um produto', error: err })
+      } else {
+        res.status(200).send({message: `O produto ${productNameToBeDeleted} foi apagado com sucesso!`})
+      }
+    })
+  }
 }
 
 module.exports = new Product()
