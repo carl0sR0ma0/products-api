@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 
 })
 
-app.use('/products', ProductsRoutes)
+app.use('/produtos', ProductsRoutes)
 
 app.get('*', (req, res) => {
   res.send({message: 'API não encontrada!'})
