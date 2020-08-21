@@ -1,5 +1,15 @@
 const productSchema = require('./../model/products.model')
 
+function defineSearchFields(fields) {
+  if (fields == 'price') {
+    return {name: 1, price: 1}
+  } else if (fields == 'name') {
+    return {name: 1}
+  } else {
+    return null
+  }
+}
+
 class Product {
   
   createProduct(req, res) {
@@ -15,7 +25,9 @@ class Product {
   }
 
   viewProducts(req, res) {
-    productSchema.find({}, (err, data) => {
+    const fields = req.query.campos
+
+    productSchema.find({}, defineSearchFields(fields), (err, data) => {
       if (err) {
         res.status(500).send({message: 'Houve um erro ao processar a sua requisição', error: err })
       } else {
