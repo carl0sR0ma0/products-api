@@ -47,6 +47,27 @@ class Product {
       }
     })
   }
+
+  updateOneProduct(req, res) {
+    const productNameToBeUpdated = req.params.nome
+    const newProductName = req.body.name
+
+    productSchema.updateOne({name: productNameToBeUpdated }, {$set: req.body}, (err, data) => {
+      if (err) {
+        res.status(500).send({message: 'Houve um erro ao processar a sua requisição', error: err })
+      } else {
+        if (data.n > 0) {
+          productSchema.findOne({name: newProductName}, (err, result) => {
+            if (err) {
+              res.status(500).send({message: 'Houve um erro ao processar a sua requisição', error: err })
+            } else {
+              res.status(200).send({message: `Produto ${productNameToBeUpdated} teve seu nome atualizado para ${newProductName}`, product: result })
+            }
+          })
+        }
+      }
+    })
+  }
 }
 
 module.exports = new Product()
