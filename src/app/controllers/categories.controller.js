@@ -1,5 +1,15 @@
 const categorySchema = require('./../model/categories.model')
 
+function defineSearchFields(fields) {
+  if (fields == 'productName') {
+    return {name: 1, products: 1}
+  } else if (fields == 'name') {
+    return {name: 1}
+  } else {
+    return null
+  }
+}
+
 class Category {
   createCategory(req, res) {
     const body = req.body
@@ -14,9 +24,9 @@ class Category {
   }
 
   viewCategories(req, res) {
-    const fields = req.params.campos
+    const fields = req.query.campos
 
-    categorySchema.find({}, (err, data) => {
+    categorySchema.find({}, defineSearchFields(fields), (err, data) => {
       if (err) {
         res.status(500).send({message: 'Houve um erro ao processar a sua requisição', error: err })
       } else {
