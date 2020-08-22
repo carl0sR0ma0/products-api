@@ -67,6 +67,18 @@ class Category {
       }
     })
   }
+
+  deleteOneCategory(req, res) {
+    const categoryNameToBeDeleted = req.params.nome
+
+    categorySchema.deleteOne({name: categoryNameToBeDeleted}, (err) => {
+      if (err) {
+        res.status(500).send({message: 'Houve um erro ao apagar uma categoria', error: err })
+      } else {
+        res.status(200).send({message: `A categoria ${categoryNameToBeDeleted} foi apagada com sucesso!`})
+      }
+    })
+  }
 }
 
 module.exports = new Category()
