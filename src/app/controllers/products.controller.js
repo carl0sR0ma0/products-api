@@ -31,7 +31,7 @@ class Product {
       if (err) {
         res.status(500).send({message: 'Houve um erro ao processar a sua requisição', error: err })
       } else {
-        res.status(200).send({message: 'Todos os filmes foram recuperados com sucesso', products: data })
+        res.status(200).send({message: 'Todos os produtos foram recuperados com sucesso', products: data })
       }
     })
   }
