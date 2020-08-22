@@ -46,6 +46,27 @@ class Category {
       }
     })
   }
+
+  updateOneCategory(req, res) {
+    const categoryNameToBeUpdated = req.params.nome
+    const newCategoryName = req.body.name
+
+    categorySchema.updateOne({name: categoryNameToBeUpdated }, {$set: req.body}, (err, data) => {
+      if (err) {
+        res.status(500).send({message: 'Houve um erro ao tentar atualizar uma Categoria', error: err })
+      } else {
+        if (data.n > 0) {
+          categorySchema.findOne({name: newCategoryName}, (err, result) => {
+            if (err) {
+              res.status(500).send({message: 'Houve um erro ao buscar a categoria atualizada', error: err })
+            } else {
+              res.status(200).send({message: `Categoria ${categoryNameToBeUpdated} teve seu nome atualizado para ${newCategoryName}`, category: result })
+            }
+          })
+        }
+      }
+    })
+  }
 }
 
 module.exports = new Category()
