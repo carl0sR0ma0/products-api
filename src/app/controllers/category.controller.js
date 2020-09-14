@@ -33,13 +33,24 @@ class Category {
         } else {
           if (data.length <= 0) {
             res.status(200).send({ message: `A categoria ${nomeCategoria} não existe no banco de dados` })
-          }
-          if (data['products'].length <= 0 || data == null) {
+          } else if (data['products'].length <= 0 || data == null) {
             res.status(200).send({ message: `A categoria ${nomeCategoria} não possui nenhum produto cadastrado` })
           } else {
             res.status(200).send({ message: `A categoria ${nomeCategoria} possui os seguintes produtos`, data: data })
           }
         }
+    })
+  }
+
+  createOneCategory(req, res) {
+    const reqBody = req.body
+
+    category.create(reqBody, (err, data) => {
+      if (err) {
+        res.status(500).send({ message: "Houve um erro ao processar a sua requisição", error: err })
+      } else {
+        res.status(200).send({ message: "Categoria criado com sucesso", data: data })
+      }
     })
   }
 }
