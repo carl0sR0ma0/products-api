@@ -1,4 +1,4 @@
-const categorySchema = require('./../model/categories.model')
+const categorySchema = require('./../model/category.model')
 
 function defineSearchFields(fields) {
   if (fields == 'productName') {
