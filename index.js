@@ -5,7 +5,7 @@ const cors = require('cors')
 const PORT = process.env.PORT || 3000
 const database = require('./src/config/database')
 
-const ProductsRoutes = require('./src/app/routes/products.routes')
+const ProductRoutes = require('./src/app/routes/product.routes')
 const CategoryRoutes = require('./src/app/routes/category.routes')
 
 app.use(bodyParser.urlencoded({extended: true}))
@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 
 })
 
-app.use('/produtos', ProductsRoutes)
+app.use('/produto', ProductRoutes)
 app.use('/categoria', CategoryRoutes)
 
 app.get('*', (req, res) => {

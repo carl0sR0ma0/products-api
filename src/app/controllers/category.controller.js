@@ -33,8 +33,6 @@ class Category {
         } else {
           if (data.length <= 0) {
             res.status(200).send({ message: `A categoria ${nomeCategoria} não existe no banco de dados` })
-          } else if (data['products'].length <= 0 || data == null) {
-            res.status(200).send({ message: `A categoria ${nomeCategoria} não possui nenhum produto cadastrado` })
           } else {
             res.status(200).send({ message: `A categoria ${nomeCategoria} possui os seguintes produtos`, data: data })
           }

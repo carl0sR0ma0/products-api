@@ -1,4 +1,5 @@
 const product = require('../model/product.model')
+const category = require('../model/category.model')
 
 class Product {
 
@@ -41,14 +42,28 @@ class Product {
     })
   }
 
-  createProduct(req, res) {
-    const body = req.body
+  createOneProduct(req, res) {
+    const reqBody = req.body
+    const idCategoria = reqBody['category']
 
-    product.create(body, (err, data) => {
+    product.create(reqBody, (err, product) => {
       if (err) {
-        res.status(500).send({message: 'Houve um erro ao processar a sua requisição', error: err })
+        res.status(500).send({ message: "Houve um erro ao processar a sua requisição", error: err })
       } else {
-        res.status(201).send({message: 'Produto criado com sucesso no banco de dados', product: data })
+        category.findById(idCategoria, (err, category) => {
+          if (err) {
+            res.status(500).send({ message: "Houve um erro ao processar a sua requisição", error: err })
+          } else {
+            category.products.push(product)
+            category.save({}, (err) => {
+              if (err) {
+                res.status(500).send({ message: "Houve um erro ao processar a sua requisição", error: err })
+              } else {
+                res.status(201).send({ message: "Produto criado com sucesso", data: product })
+              }
+            })
+          }
+        })
       }
     })
   }
