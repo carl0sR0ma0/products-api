@@ -17,6 +17,40 @@ class Category {
         }
       })
   }
+
+  searchForProductsInACategoryByTheirName(req, res) {
+    const {nomeCategoria} = req.params
+
+    if (nomeCategoria == undefined || nomeCategoria == 'null') {
+      res.status(400).send({ message: "O nome da categoria deve ser obrigatóriamente preenchido" })
+    }
+
+    category.find({ name: nomeCategoria })
+      .populate('products', { name: 1, image: 1})
+      .exec((err, data) => {
+        if (err) {
+          res.status(500).send({ message: "Houve um erro ao processar a sua requisição", error: err })
+        } else {
+          if (data.length <= 0) {
+            res.status(200).send({ message: `A categoria ${nomeCategoria} não existe no banco de dados` })
+          } else {
+            res.status(200).send({ message: `A categoria ${nomeCategoria} possui os seguintes produtos`, data: data })
+          }
+        }
+    })
+  }
+
+  createOneCategory(req, res) {
+    const reqBody = req.body
+
+    category.create(reqBody, (err, data) => {
+      if (err) {
+        res.status(500).send({ message: "Houve um erro ao processar a sua requisição", error: err })
+      } else {
+        res.status(200).send({ message: "Categoria criado com sucesso", data: data })
+      }
+    })
+  }
 }
 
 module.exports = new Category()
