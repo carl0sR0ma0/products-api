@@ -1,5 +1,4 @@
 const {Schema, model} = require('mongoose')
-const mongoose = require('../../config/database')
 
 const ProductSchema = new Schema({
   sku: {
@@ -17,21 +16,40 @@ const ProductSchema = new Schema({
     required: false,
     trim: true
   },
+  price: {
+    type: Number,
+    required: false
+  },
   qty: {
     type: Number,
     required: false
   },
-  price: {
-    type: Number,
-    required: false
+  freeShipping: {
+    type: Boolean,
+    required: true
   },
   enabled: {
     type: Boolean,
     required: true
   },
+  brand: {
+    type: String,
+    trim: true,
+    required: false
+  },
+  model: {
+    type: String,
+    required: false,
+    trim: true
+  },
+  image: {
+    type: String,
+    required: true,
+    trim:true
+  },
   category: {
     type: Schema.Types.ObjectId,
-    ref: 'categoriesSchema',
+    ref: 'Category',
   }
 },
   {
@@ -40,4 +58,4 @@ const ProductSchema = new Schema({
   }
 )
 
-module.exports = model('productSchema', ProductSchema)
+module.exports = model('Product', ProductSchema)

@@ -1,4 +1,4 @@
-const productSchema = require('./../model/products.model')
+const productSchema = require('../model/product.model')
 
 function defineSearchFields(fields) {
   if (fields == 'price') {

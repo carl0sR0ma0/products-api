@@ -6,8 +6,7 @@ const PORT = process.env.PORT || 3000
 const database = require('./src/config/database')
 
 const ProductsRoutes = require('./src/app/routes/products.routes')
-const CategoryRoutes = require('./src/app/routes/categories.routes')
-const ProductCategoryRoutes = require('./src/app/routes/productCategory.routes')
+const CategoryRoutes = require('./src/app/routes/category.routes')
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.text())
@@ -27,8 +26,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/produtos', ProductsRoutes)
-app.use('/categorias', CategoryRoutes)
-app.use('/produtoCategoria', ProductCategoryRoutes)
+app.use('/categoria', CategoryRoutes)
 
 app.get('*', (req, res) => {
   res.send({message: 'API não encontrada!'})

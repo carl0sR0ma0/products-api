@@ -10,9 +10,13 @@ const CategorySchema = new Schema({
     required: true,
     trim: true
   },
+  description: {
+    type: String,
+    trim: true
+  },
   products:[{
     type: Schema.Types.ObjectId,
-    ref: 'productSchema'
+    ref: 'Product'
   }]
 },
   {
@@ -21,4 +25,4 @@ const CategorySchema = new Schema({
   }
 )
 
-module.exports = model('categorySchema', CategorySchema)
+module.exports = model('Category', CategorySchema)
