@@ -2,10 +2,8 @@ const express = require('express')
 const route = express.Router()
 const Product = require('./../controllers/product.controller')
 
+route.get('/listarTodos', Product.searchAllProducts)
+route.get('/listarUm/:nomeProduto', Product.searchOneProductByName)
 route.post('/criar', Product.createProduct)
-route.get('/visualizarTodos', Product.viewProducts)
-route.get('/visualizarUm/:nome', Product.viewOneProduct)
-route.put('/atualizarUm/:nome', Product.updateOneProduct)
-route.delete('/apagarUm/:nome', Product.deleteOneProduct)
 
 module.exports = route
