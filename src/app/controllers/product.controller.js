@@ -28,13 +28,13 @@ class Product {
       res.status(400).send({message: "O nome do produto deve ser obrigatóriamente preenchido" })
     }
 
-    product.find({name: nomeProduto})
+    product.findOne({name: nomeProduto})
       .populate('category', { name: 1 })
       .exec((err, data) => {
         if (err) {
           res.status(500).send({message: 'Houve um erro ao processar a sua requisição', error: err })
         } else {
-          if (data.length <= 0) {
+          if (data == null) {
             res.status(200).send({message: `Produto não encontrado no banco de dados` })
           }
           res.status(200).send({message: `Produto ${nomeProduto} foi recuperado com sucesso`, data: data })

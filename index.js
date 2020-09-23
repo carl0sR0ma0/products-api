@@ -29,7 +29,7 @@ app.use('/produto', ProductRoutes)
 app.use('/categoria', CategoryRoutes)
 
 app.get('*', (req, res) => {
-  res.send({message: 'API não encontrada!'})
+  res.status(404).send({message: 'API não encontrada!'})
 })
 
 app.listen(PORT, () => console.log(`API ouvindo na porta ${PORT}`))
