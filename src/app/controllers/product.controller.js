@@ -71,7 +71,7 @@ class Product {
   validateProductName(req, res) {
     const name = req.query.name.replace(/%20/g, " ")
 
-    product.find({name: {'$regex': `^${name}$`, '$options': 'i' } }, (err, result => {
+    product.find({name: {'$regex': `^${name}$`, '$options': 'i' } }, (err, result) => {
       if (err) {
         res.status(500).send({ message: "Houve um erro ao processar a sua requisição"})
       } else {
@@ -81,7 +81,7 @@ class Product {
           res.status(200).send({ message: "Produto disponível", data: result.length })
         }
       }
-    }))
+    })
   }
 }
 
