@@ -55,7 +55,7 @@ class Category {
   validateCategoryName(req, res) {
     const name = req.query.name.replace(/%20/g, " ")
 
-    category.find({name: {'$regex': `^${name}$`, '$options': 'i' } }, (err, result => {
+    category.find({name: { '$regex': `^${name}$`, '$options': 'i' } }, (err, result) => {
       if (err) {
         res.status(500).send({ message: "Houve um erro ao processar a sua requisição"})
       } else {
@@ -65,7 +65,7 @@ class Category {
           res.status(200).send({ message: "Categoria disponível", data: result.length })
         }
       }
-    }))
+    })
   }
 }
 
