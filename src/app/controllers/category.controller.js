@@ -51,6 +51,22 @@ class Category {
       }
     })
   }
+
+  validateCategoryName(req, res) {
+    const name = req.query.name.replace(/%20/g, " ")
+
+    category.find({name: {'$regex': `^${name}$`, '$options': 'i' } }, (err, result => {
+      if (err) {
+        res.status(500).send({ message: "Houve um erro ao processar a sua requisição"})
+      } else {
+        if (result.length > 0) {
+          res.status(200).send({ message: "Já existe uma categoria cadastrado com esse nome", data: result.length })
+        } else {
+          res.status(200).send({ message: "Categoria disponível", data: result.length })
+        }
+      }
+    }))
+  }
 }
 
 module.exports = new Category()

@@ -67,6 +67,22 @@ class Product {
       }
     })
   }
+
+  validateProductName(req, res) {
+    const name = req.query.name.replace(/%20/g, " ")
+
+    product.find({name: {'$regex': `^${name}$`, '$options': 'i' } }, (err, result => {
+      if (err) {
+        res.status(500).send({ message: "Houve um erro ao processar a sua requisição"})
+      } else {
+        if (result.length > 0) {
+          res.status(200).send({ message: "Já existe um produto cadastrado com esse nome", data: result.length })
+        } else {
+          res.status(200).send({ message: "Produto disponível", data: result.length })
+        }
+      }
+    }))
+  }
 }
 
 module.exports = new Product()
