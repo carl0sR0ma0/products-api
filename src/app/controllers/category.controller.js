@@ -25,13 +25,13 @@ class Category {
       res.status(400).send({ message: "O nome da categoria deve ser obrigatóriamente preenchido" })
     }
 
-    category.find({ name: nomeCategoria })
-      .populate('products', { name: 1, image: 1})
+    category.findOne({ name: nomeCategoria })
+      .populate('products', { name: 1, image: 1, price: 1, freeShipping: 1, enabled: 1, brand: 1, model: 1 })
       .exec((err, data) => {
         if (err) {
           res.status(500).send({ message: "Houve um erro ao processar a sua requisição", error: err })
         } else {
-          if (data.length <= 0) {
+          if (data == null) {
             res.status(200).send({ message: `A categoria ${nomeCategoria} não existe no banco de dados` })
           } else {
             res.status(200).send({ message: `A categoria ${nomeCategoria} possui os seguintes produtos`, data: data })
@@ -48,6 +48,22 @@ class Category {
         res.status(500).send({ message: "Houve um erro ao processar a sua requisição", error: err })
       } else {
         res.status(200).send({ message: "Categoria criado com sucesso", data: data })
+      }
+    })
+  }
+
+  validateCategoryName(req, res) {
+    const name = req.query.name.replace(/%20/g, " ")
+
+    category.find({name: { '$regex': `^${name}$`, '$options': 'i' } }, (err, result) => {
+      if (err) {
+        res.status(500).send({ message: "Houve um erro ao processar a sua requisição"})
+      } else {
+        if (result.length > 0) {
+          res.status(200).send({ message: "Já existe uma categoria cadastrado com esse nome", data: result.length })
+        } else {
+          res.status(200).send({ message: "Categoria disponível", data: result.length })
+        }
       }
     })
   }
