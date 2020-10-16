@@ -13,7 +13,7 @@ class Product {
           res.status(500).send({message: 'Houve um erro ao processar a sua requisição', error: err })
         } else {
           if (data.length <= 0) {
-            res.status(200).send({message: 'Não existem filmes cadastrados na base de dados' })
+            res.status(200).send({message: 'Não existem products cadastrados na base de dados' })
           } else {
             res.status(200).send({message: 'Todos os produtos foram recuperados com sucesso', data: data })
           }
@@ -80,6 +80,50 @@ class Product {
         } else {
           res.status(200).send({ message: "Produto disponível", data: result.length })
         }
+      }
+    })
+  }
+
+  updateProduct(req, res) {
+    const { productId } = req.params
+    const reqBody = req.body
+    const categoryId = reqBody['category']
+
+    product.updateOne({ _id: productId }, { $set: reqBody }, (err, product) => {
+      if (err) {
+        res.status(500).send({message: "Houve um erro ao processo ao processar sua requisição" })
+      } else {
+        category.findOne({ products: productId }, (err, result) => {
+          if (err) {
+            res.status(500).send({message: "Houve um erro ao processo ao processar sua requisição" })
+          } else {
+            if (result['_id'] == categoryId) {
+              res.status(200).send({ message: "O Produto foi atualizado", data: product })
+            } else {
+              result.products.pull(productId)
+              result.save({}, (err) => {
+                if (err) {
+                  res.status(500).send({message: "Houve um erro ao processo ao processar sua requisição" })
+                } else {
+                  category.findById(categoryId, (err, categoria) => {
+                    if (err) {
+                      res.status(500).send({message: "Houve um erro ao processo ao processar sua requisição" })
+                    } else {
+                      categoria.products.push(productId)
+                      categoria.save({}, (err) => {
+                        if (err) {
+                          res.status(500).send({message: "Houve um erro ao processo ao processar sua requisição" })
+                        } else {
+                          res.status(200).send({ message: "O Produto foi atualizado", data: product })
+                        }
+                      })
+                    }
+                  })
+                }
+              })
+            }
+          }
+        })
       }
     })
   }

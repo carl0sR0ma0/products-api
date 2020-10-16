@@ -3,7 +3,7 @@ const category = require('../model/category.model')
 class Category {
   
   searchAllCategories(req, res) {
-    category.find({}, { products: 0 })
+    category.find({})
       .sort({ name: 1 })
       .exec((err, data) => {
         if (err) {
