@@ -67,6 +67,27 @@ class Category {
       }
     })
   }
+
+  updateCategory(req, res) {
+    const { categoryId } = req.params
+    const reqBody = req.body
+
+    category.updateOne({ _id: categoryId }, { $set: reqBody }, (err, result) => {
+      if (err) {
+        res.status(500).send({ message: "Houve um erro ao processar a sua requisição"})
+      } else {
+        if (result.n > 0) {
+          category.findOne({ _id: categoryId }, (err, categoria) => {
+            if (err) {
+              res.status(500).send({ message: "Houve um erro ao processar a sua requisição", error: err })
+            } else {
+              res.status(200).send({ message: "A Categoria foi atualizada", data: categoria })
+            }
+          })
+        }
+      }
+    })
+  }
 }
 
 module.exports = new Category()
