@@ -6,9 +6,7 @@ route.get('/listarTodos', Category.searchAllCategories)
 route.get('/listarUm/:nomeCategoria', Category.searchForProductsInACategoryByTheirName)
 route.post('/criar', Category.createOneCategory)
 route.get('/validarNomeCategoria', Category.validateCategoryName)
-// route.post('/criar', Category.createCategory)
-// route.get('/visualizarUm/:nome', Category.viewOneCategory)
-// route.put('/atualizarUm/:nome', Category.updateOneCategory)
-// route.delete('/apagarUm/:nome', Category.deleteOneCategory)
+route.put('/atualizar/:categoryId', Category.updateCategory)
+route.delete('/apagar/:categoryId', Category.deleteCategory)
 
 module.exports = route
