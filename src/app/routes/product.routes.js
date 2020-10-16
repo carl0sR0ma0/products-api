@@ -7,5 +7,6 @@ route.get('/listarUm/:nomeProduto', Product.searchOneProductByName)
 route.post('/criar', Product.createOneProduct)
 route.get('/validarNomeProduto', Product.validateProductName)
 route.put('/atualizar/:productId', Product.updateProduct)
+route.delete('/apagar/:productId', Product.deleteProduct)
 
 module.exports = route

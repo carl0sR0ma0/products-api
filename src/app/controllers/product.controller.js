@@ -127,6 +127,31 @@ class Product {
       }
     })
   }
+
+  deleteProduct(req, res) {
+    const { productId } = req.params
+
+    category.findOne({ products: productId }, (err, categoria) => {
+      if (err) {
+        res.status(500).send({message: "Houve um erro ao processo ao processar sua requisição", error: err })
+      } else {
+        categoria.products.pull(productId)
+        categoria.save({}, (err) => {
+          if (err) {
+            res.status(500).send({message: "Houve um erro ao processo ao processar sua requisição", error: err })
+          } else {
+            product.deleteOne({ _id: productId }, (err, result) => {
+              if (err) {
+                res.status(500).send({message: "Houve um erro ao processo ao processar sua requisição", error: err })
+              } else {
+                res.status(200).send({message: "O Produto foi apagado com sucesso", data: result })
+              }
+            })
+          }
+        })
+      }
+    })
+  }
 }
 
 module.exports = new Product()
