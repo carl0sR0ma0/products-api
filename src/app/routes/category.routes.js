@@ -7,6 +7,6 @@ route.get('/listarUm/:nomeCategoria', Category.searchForProductsInACategoryByThe
 route.post('/criar', Category.createOneCategory)
 route.get('/validarNomeCategoria', Category.validateCategoryName)
 route.put('/atualizar/:categoryId', Category.updateCategory)
-// route.delete('/apagarUm/:nome', Category.deleteOneCategory)
+route.delete('/apagar/:categoryId', Category.deleteCategory)
 
 module.exports = route

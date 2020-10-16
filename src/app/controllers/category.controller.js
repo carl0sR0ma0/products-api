@@ -1,4 +1,5 @@
 const category = require('../model/category.model')
+const product = require('./../model/product.model')
 
 class Category {
   
@@ -9,7 +10,7 @@ class Category {
         if (err) {
           res.status(500).send({ message: "Houve um erro ao processar a sua requisição", error: err })
         } else {
-          if (data.length < 0) {
+          if (data.length <= 0) {
             res.status(200).send({ message: "Não foram encontrados categorias para exibir" })
           } else {
             res.status(200).send({ message: "Categorias recuperadas com sucesso", data: data })
@@ -85,6 +86,30 @@ class Category {
             }
           })
         }
+      }
+    })
+  }
+
+  deleteCategory(req, res) {
+    const { categoryId } = req.params
+
+    category.findOne({ _id: categoryId }, (err, categoria) => {
+      if (err) {
+        res.status(500).send({message: "Houve um erro ao processo ao processar sua requisição", error: err })
+      } else {
+        product.deleteMany({ category: categoryId }, (err) => {
+          if (err) {
+            res.status(500).send({message: "Houve um erro ao processo ao processar sua requisição", error: err })
+          } else {
+            category.deleteOne({ _id: categoryId }, (err, result) => {
+              if (err) {
+                res.status(500).send({message: "Houve um erro ao processo ao processar sua requisição", error: err })
+              } else {
+                res.status(200).send({message: "A categoria foi apagada com sucesso", data: result })
+              }
+            })
+          }
+        })
       }
     })
   }
